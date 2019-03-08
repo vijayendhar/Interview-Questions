@@ -1,0 +1,56 @@
+Linux Commands:
+
+1) df and du commands?
+
+df command for Disk space
+Du command for folder space
+
+So basically I would like to say that first command is used to list down the various kids of partitions and then with free space and utilization of the space on those machines and the second hand is actually used for the various kinds of folder level stuff.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Bash Script:
+
+1) Bash script, clear the array and print each element of the array in a loop?
+
+my_customarray=(a b c)
+for i in ${my_customarray[@]}; do echo $i;
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Python:
+
+1) What you have worked on Python?
+ 
+ yes, Definately I like to say that i have been working on various kinds of things inside python i would like to say i have been creating various kinds of script in python for automatic snapshot creation of the application instances and then i was also responsible
+ for doing some of the creation of the backups and also switching off the machines at night and switching on in the morning and also apart from that also creating the various lambda functions which we were used as microservices for some of the functions and also created
+ python script for build automations and blue gree deployments which would actually deploy to half of the machine and then to other half of the machine.
+ 
+2) python code - read the content of file
+ F = open("logfile.txt", "r")
+  print F
+  
+  Modes:  read, write, append
+  
+  r+ = read and write mode
+  
+  So Basically python is a statically typed language and we don't need to declare the variable can actually use if on runtime.
+  
+ 
+ 
+ 
+ -------------------------------------------------------------------------------------------------------------------------------------
+ 
+ SCM:
+ 
+ 1) what is the difference between source code management and software configuration management
+ 
+ Version control is the control of deliverables whereas configuration management is managing the entire process leading to produce the deliverables. Configuration management involves change management, project management, etc., 
+ which generally are not managed by simple version control.
+ 
+ Configuration management is everything that you need to manage in terms of a project. This includes software, hardware, tests, documentation, release management, and more. It identifies every end-user component and tracks every proposed and approved change to it from Day 1 of the project to the day the project ends.
+
+ Version control is specifically applied to computer files. This includes documents, spreadsheets, emails, source code, and more.
+ 
+ 

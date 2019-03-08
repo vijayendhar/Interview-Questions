@@ -1,0 +1,11 @@
+1) what is cook book and how to write reciepes?
+
+2) as for as the chef resources go, what will happend if don't deine chef action?
+3) have you ever done installation on chef server?
+4) lets say you have one server in your network which chef agent installed on it by using chef configuration but definately there would be need to take care of inside chef server?
+5) How to delete the node from chef server?
+6) Have you ever worked on the artifactory?
+7) what ate replications you have followed between two jfrog artifactory to talk each other?
+8) How you will reverse the string in Ruby?
+
+

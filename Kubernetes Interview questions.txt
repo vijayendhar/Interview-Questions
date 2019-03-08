@@ -1,0 +1,10 @@
+Kubernetes:
+
+1) Have you ever worked on Kubernetes:
+
+Yes, I have worked on kubernates cluster and have created various kinds of justice and the created various kinds of manifest files on the top of those which can help me in the creation of the various automated manifest and running services.
+
+2) what distribution used for kubernetes cluster?
+3) Have you ever worked on openshift kubernetes?
+4) What is the difference between ingres and route in kubernetes?
+

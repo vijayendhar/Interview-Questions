@@ -1,0 +1,40 @@
+6) Have you worked on the Terraform? and what is the various type of tasks done?
+yes, i have worked on the Terraform, I have used it for the provisioning of the infrastructure.
+
+I have returned the various types of tasks for the creation of the virtual private cloud and apart from that creation of virtual machines by using the various subnet and Elastic IP resources to create the  Elastic IP for the virtual machine and 
+finally go ahead and used those machines for various kind of activities on a daily basis for the application workflow as well. 
+
+7) How did you check the application workflow in Terraform?
+
+Basically you can do that by specifying the output files where in you can actually do that terraforms output file will gives you what is the actual output variable and the output and then you can use that as next steps  for the next cloud formation template.
+
+
+8) have you ever used terraform with cloud formation?
+
+Yes, I have used terraform with cloud formation. I ahve use the cloud forms with the key is independent sources and i have also got experience in the and have been deploying microservices  on the cloud using terraform.
+
+9) How to deploy the microservices using terraform?
+
+There are various ways of first all you have to create the various kinds of environments and you will be using the resources. When coming to deployment would like to say that you will be doing the blue green deployment in which you will actually go ahead and 
+then deploythe half of the machines and then you can manage the microsoft deployment infrastructure on top of the amazon and applied to the other half, obviously there is going to be integration test which will help us in doing the evaluations
+
+So basically we are using the java and spring boot are being used to easily provision by using the terraform. We will be doing the end to end integration in which we will provisining infrastructure using various kinds of resources and once the infrastructure
+has been provisioned, we will have various outputs and we have user data scripts which we actually done by Ansible playbook, so we will be deploying application through ansible playbook  but then yes the infrastructure creation will actually be done through
+terraform scripts which will help you to deploy the infrastructure.
+
+5) What is the difference between cloudformation and terraform?
+
+the main difference is terraform works across multiple cloud provider  and cloudformation works only with AWS.
+Terraform is having state management on the S3 buckets on the local file where as this missing on the cloud formation template.
+
+
+12) what are the parameters you need to create EC2 using terraform?
+
+Most likely we need machine size  and also required virtual private cloud because without that you will not able to create the machine in the cloud.
+
+15) What is the provisioner in Terraform?
+
+Basically provisioner in terraform which will let you talk to the various clouds and provisioners are used to execute the scripts on the local or remote machine as part of resource creation and provisioner can used to bootstrap a resource and cleanup before distroy 
+and run the configuration management. we can have 
+creation time provisioners -> can only run during the creation, not during the updation of life cycle and perform bootstraping the system
+distroy time provisioners -> can run only during the configuration of the resource if the resource block with destroy time provisioner 

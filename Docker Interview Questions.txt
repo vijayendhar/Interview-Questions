@@ -1,0 +1,206 @@
+
+
+1) WHat is your experience on Docker?
+
+Basically, I would like to say that in the docker, i have created the various kinds of docker files and I have built continous from scratch and apart from that i ahve also got experience in utilisation of the kubernetes for the orchestration of the docker container
+runs across multiple machines and i have been using docker fro deployment of various microservices and services across various namespaces on the cloud and a person that a I am also responsible in the current project for integrating with the elastic container registry
+so that we can goahead and post the containers to elastic container service i would like to say and i ahve also the microservice written in java spring boot and the node JS on the cloud which i was actually using for the various kinds of scaling up on the cloud 
+
+2) What is Docker, container, image?
+
+Docker:
+	Docker is an open platform for developing, shipping and running the applications
+	Docker enables you to separate your applications from your infrastructure so you can deliver software quickly.
+	With docker you can manage your infrastructure in the same way you manage your applications
+	
+	Docker is a computer program that performs operating-system-level virtualization, also known as "containerization".
+	
+container:
+its a runtime instance of an image that shares the kernel of host machine. Its runs as discrete process.
+It runs natively on linux and shares the kernel with other containers
+
+image:
+Its an executable package that contains everything needed (libraries, code, environment variables, config files) to run an application.
+
+3) Docker Architecture:
+
+	The Docker Deemon is the service that runs on your host operating system
+	The Docker Deamon itself exposed a REST API. From here a number of different tools can talk to the daemon through API.
+	The Docker CLI, it is a command line tool that lets you talk to the Docker daemon
+
+4) How does the docker machine created in amazon cloud?
+
+Basically docker machine is getting created, will actually have various kinds of docker images which are the elastic container registry and then we will be pulling that image from the remote elastic container registry and then we will be running the command called
+
+Docker run -ti ubuntu/centos
+
+We will also try to scale up the kubernetes as well as the docker swarm and it can be used for the production and various kinds stuff on top of that.
+
+
+5) how do you secure docker demon?
+Secure by default
+If you want to secure your Docker client connections by default, you can move the files to the .docker directory in your home directory -- and set the DOCKER_HOST and DOCKER_TLS_VERIFY variables as well (instead of passing-H=tcp://$HOST:2376 and --tlsverify on every call).
+$ mkdir -pv ~/.docker $ cp -v {ca,cert,key}.pem ~/.docker  $ export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
+
+6) what is docker swarm?
+	A swarm is nothing but a  group of machine running docker grouped into a cluster. We will have a Swarm manager on a node, which will interact with other docker machines and create containers for your app.
+	All the managing is done through Swarm Manager, and swarm is a tool for container orchestartion.
+	
+7) What is the hirerachy in Docker?
+	Stack
+		services
+			Containers
+8) Where is Docker config file located?
+	its available in /etc/docker/daemon.json
+
+9) How to set a DNS address?
+	Add following line to docker config file.
+	{
+		"dns": ["your_dns_address", "8.8.8.8"]
+	}
+	
+	Note:	Always make sure to restart Docker after updating config file.
+	
+10) How to specify if you use a proxy server for connecting?
+	Proxy servers can block connections to your web app once it’s up and running. If you are behind a proxy server, add the following lines to your Dockerfile.
+	Use ENV command and specify the Host and Port in the docker file.
+	# Set proxy server, replace host:port with values for your servers
+		ENV http_proxy host:port
+		ENV https_proxy host:port
+
+11) What is docker registry? & repository?
+	A registry is a collection of repositories, and a repository is a collection of images
+
+12) How do you setup your Private Registery?
+	Using Docker Trusted Regsitry, you can setup your own registry for storing images.
+
+13) How many repositories you can create in a Registry?
+	Unlimited
+
+14) What is the registry used by docker?
+	Docker uses Docker's public registry by default
+	
+15) How do you scale & perform load balancing on your applications?
+	This is achieved using the concept of Services in docker. A higher level than Container.
+	
+16) How do you scale your app?
+	Simply update the docker-compose.yml and re-run the docker stack deploy command
+
+17) Explain the docker file by taking sample image of your microservice?
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Docker Commands:
+
+docker build --tag=<nameofimage>                           - command to create a docker image
+docker ps                                                  - view list of running containers
+docker --version                                           - check Docker version
+docker run hello-world                                     - check Docker installation by running hello-world program
+docker images ls                         				   - view list of images downloaded to your local
+docker container ls -all                 				   - list all containers
+docker run -p <newport>:<defaultport> <containername>      - Set Port
+docker-machine ip                                          - find IP address
+service docker <start/stop/restart>                        - start/stop/restart Docker
+docker run -d <containername>                              - run an app in detached or background mode
+docker container <stop> <containerid>                      - stop a container
+docker login                                               - login into Docker Hub
+docker tag image username/repository:tag                   - tag an image
+docker push username/repository:tag                        - publish or push the image
+docker run -p 4000:80 username/repository:tag              - pull an image
+docker service ls                                          - view or list the service in your application
+docker stack rm <appname>                                  - take down an app
+docker swarm leave --force                                 - take down a swarm
+docker-machine create --driver virtualbox <nameofvm>       - create a docker-machine
+docker-machine ls                                          - list all docker machines
+docker-machine ip <machinename>                            - view IP address of a docker machine
+docker-machine ssh <machinename>                           - connect to your docker machine
+docker swarm init --advertise-addr MANAGER_IP              - initialize the docker swarm/make a machine Swarm Manager
+docker node ls                                             - list the details of swarm manager node
+docker swarm join-token worker                             - join worker/nodes to swarm manager     (Once you run this on swarm manager, it will give you a command that you can copy & run on swarm workers.)
+docker swarm                                               - check list of commands available with swarm
+docker service create --replicas <x> -p 80:80 --name <servicename> <imagename>   - create a nginx application on multiple machines as a service
+docker service ls                                          - to view all services
+docker service ps <servicename>                            - to view  specific service
+docker service scale <servicename>=<replicas>              - scale up or down the service  (Run on Swarm Manager)
+docker node inspect <nodename>                             - inspect any node (Run on manager swarm or node)
+docker service update --image <imagename>:<version> <servicename>  - update a service with a new image or updated image
+docker service rm <servicename>                            - remove service
+docker node update --availability drain <nodename>         - shutdown node
+docker swarm leave                                         - decouple or leave the swarm
+docker-machine stop <machinename>                          - stop a docker machine
+docker-machine rm <machinename>                            - remove a docker machine
+docker attach <container id>                               - get into the interactive shell command line interface for the docker container
+docker exec                                                - ability run the command inside the container without going inside the container
+
+                             
+
+How do you run your new load-balanced app?
+	docker swarm init
+	docker stack deploy -c docker-compose.yml <nameofyourapp>
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1) Dockerfile:
+
+What is a docker file?
+Portable images are defined by something called a "Dockerfile"
+Dockerfile contains the information about your container environment such as Files, Network, Storage Volumes etc.
+
+So Basically in that docker file, the first step is pull the base image which is Ubuntu Image and from there you will be having the various run directives which are there which can actually have the command used for the installation of the stuff and also you will 
+be having other things like exposing the ports and then that command and all the other things for that case and also will be having various commands nad the entry point which will be used for this case.
+
+
+Create an empty directory on your local machine. Change directories (cd) into the new directory, create a file called Dockerfile, copy-and-paste the following content into that file, and save it. Take note of the comments that explain each statement in your new Dockerfile.
+# Use an official Python runtime as a parent image
+FROM python:2.7-slim
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+
+2) docker-compose.yml:
+
+What is Docker Compose?
+	Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. 
+	Then, with a single command, you create and start all the services from your configuration
+
+
+Save this file as docker-compose.yml wherever you want. Be sure you have pushed the image you created in Part 2 to a registry, and update this .yml by replacing username/repo:tag with your image details.
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: username/repo:tag
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4000:80"
+    networks:
+      - webnet
+networks:
+  webnet:
