@@ -1,3 +1,7 @@
+Ansible version: 2.7.0
+
+
+
 1) What is Ansible and what are ansible Features?
 
 		Is a toll that provides
@@ -19,9 +23,21 @@ Ansible is agent-less, that means no need of any agent installation on remote no
 Ansible can handle 100’s of nodes from a single system over SSH connection and the entire operation can be handled and executed by one single command ‘ansible’. But, in some cases, where you required to execute multiple commands for a deployment, here we can build playbooks.
 Playbooks are bunch of commands which can perform multiple tasks and each playbooks are in YAML file format.
 
+
+
 3) What is Ansible Tower?
-Ansible is classified as a web-based solution which makes Ansible very easy to use. It is considered to be or acts like a hub for all of your automation tasks. 
-The tower is free for usage till 10 nodes.
+
+Ansible Tower is GUI based dashboard which provides a status summary of all hosts and jobs including successful and failure playbook runs, define inventories, list recent jobs.
+
+Benefits:
+
+Role BAsed access control
+push-button deployment
+REST API
+Centralized logging and auditing
+
+
+
 
 4) What is Host Inventory?
     It will contain list of your hosts grouped together
@@ -60,6 +76,29 @@ and route 53. So that dynamic inventory will be created, will actually  have IP 
 
 One of the main reason, why we need dynamic inventory required is that we want to automatically get the IP addresses of the machine inside the stack
 
+script: Jenkins build script for create dynamic inventory for EC2 instances
+
+we can pass the following parameters while running the jenkins job
+
+export AWS_ACCESS_KEY_ID=$aws_access_key
+export AWS_SECRET_ACCESS_KEY=$aws_secret_key
+export AWS_REGION=$region
+
+mkdir inventory
+
+we need to download the following two files on the perticular host 
+
+wget <ansible github repository url for ec2.py file> - Inventory script
+wget <ansible github repository url for ec2.ini file> - configuration file inventory script
+
+chmod +x ec2.py - make it executable
+./ec2.py --list - list the output servers
+
+
+
+
+
+
 9) How does the Inventory file listen like which server it belongs to ?
 
 BAsically we will have various types of dynamic inventory files which will be utilized on the amazon CLI and we will be using the access key and secret access key and then finally we will be having various extra variables and you will be having docker update YAML
@@ -74,7 +113,11 @@ $ ansible-galaxy init azavea.packer azavea.packer was created successfully
 11) what is the difference between ansible playbook and scripts like shell?
 
 ansible playbooks will have various kinds of ansible directives and the modules which are used which are already written in python and ansible will be using YAML syntax
-shell scripts which will have like simple callabacks to various stuffs.
+shell scripts which will have like simple callabacks to various stuffs
+
+12) What is forks in ansible?
+
+
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -86,10 +129,10 @@ Ansible Adhoc Commands:
 	ansible all -s -n shell -a '/cat/etc/redhat-release'     -	redhat release of all the machines
 	ansible all -s -n shell -a 'mount'		                 -	Kind of mount on all the machines
 	ansible all -s -n shell -a 'service sshd status'		 -	check the service status on all the machines
-    ansible all -m ping		                                 -	If you want to use the modules from command line 
+    ansible all -m ping		                                 -	To check the server ping status
     ansible webservers -m command -a "ls"	                 -	If you want to use the ping module to ping  hoall the host difined in the inventory (this will basically list all the modules present and it will ping) 
     ansible -i inventory all - m command -a "iptables -F" --become --ask-become-pass	      -	If you want to flush iptables rules in the inventory
-    ansible all -m setup	                                 -	If you want anisble to gather about 
+    ansible all -m setup	                                 -	If you want anisble to collect gather facts from host in JSON format
     ansible-doc setup	                                     -	extract the document about t
     ansible all -l webserver -m shell -a "mkdir /tmp/yug" -b -	Create folder in webserver directory
     ansible all -l webserver -m apt -a "install_recommends=yes name=apache2 state=latest" -b	-	installing apache2
@@ -101,6 +144,10 @@ Ansible Adhoc Commands:
     ansible dev -i hosts -u <username> -m yum -a "name=httpd state=present" - b
 	ansible dev -m copy -a "src=<> dest=<>"                  - copy the file from 1 location to another location
 	ansible -m debug -a "var=hostvars['hostname']" localhost - To see Inventory vars defined for my host
+	ansible all -a "df -h"                                   - To check the disk space of the server
+	ansible all -a "free -m"                                 -  To check the free memory of the server
+	ansible all -m file -a "dest=<> mode=755 state=<>"        - TO change the file permissions, create/delete directory
+	ansible -a "netstat -an" webservers                      - To check listening ports
 	
 -i - for inventory
 -u - user
@@ -114,7 +161,9 @@ Ansible Playbook Commands:
 ansible-playbook  <file name> --syntax-check    - syntax check
 ansible-playbook <file name> --list-tasks       - to check the tasks
 ansible-playbook <file name>                    - to Run the playbook
-
+ansible-playbook --check <YAML file anme>  - TO check the machine desired state
+ansible-playbook -v <YAML file name>     - to display the playbook result including output
+ansible-playbook -vvvv <YAML file name>     - to give every minor details for each task
 
 
 Hosts And Users:
@@ -140,6 +189,9 @@ Handlers are just like regular tasks in an Ansible playbook, but are only run if
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Ansible playbook scripts:
+
+
+
 
 1) Automating AWS EC2 instance creating using Ansible:
 
@@ -208,3 +260,66 @@ Ansible-playbook ec2creating.yml
 
 
 2) 
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ansible with Vagrant
+
+1) Vagrant init centos/7 - to create vagrant file
+2) update the vagrant file, make the SSH connection to false to use the same SSH key for all servers and give howmany servers you want to create
+3) vagrant ssh-config - to check the details for the servers, take the identityfile details
+4) update the ansible config file with identityfile details and user as vagrant, inventory as host
+5) update the host file with all server details 
+6) vagrant up - will make the all servers up and running
+
+--------------------------------------------------------------------------------------------------------------------------
+Ansible Vault:
+
+Ansible Vault is a feature of ansible that allows you to encrypt or decrypt sensitive data such as passwords or keys in encrypted files, rather than as plaintext in playbooks or roles.
+
+ansible-valut create valut.yml     -> create new encrypted file
+ansible-valut encrypt passowrd.txt -> encrypt the existing file
+ansible-vault view password.txt    -> To view the unencrypted content of the file
+ansible-vault edit password.txt    -> To edit the encrypted file
+ansible-vault rekey foo.yml bar.yml baz.yml   -> To change the vault password of the vault encrypted file
+ansible-vault decrypt foo.yml bar.yml baz.yml -> To decrypt the encrypted file
+
+Suppose if you have any YAMl file has sensitive data like Database password then follow the instructions to encrypt
+
+Ex: playbook.yml
+mysql_root_db_pass: dbpass
+
+1) create new vault file inside the variable folder and place the sensitive content in that file by using "vault_" keyword
+ valut_mysql_root_db_pass: dbpass
+ 
+2) update the playbook yml file with encrypted variable name
+mysql_root_db_pass: "{{ valut_mysql_root_db_pass }}"
+
+3) Run the playbook with --ask-valut-pass
+ansible-playbook playbook.yml --ask-valut-pass
+
+2nd way:
+
+1) place the password on valut text file
+echo dbpass > ~/.valut_pass.txt
+2) chnage the permission to the file
+chmod 0600 !$
+3) execute ansible playbook
+ansible-playbook playbook.yml --valut-password-file ~/.valut_pass.txt
+
+3rd way:
+
+1) 
+1) place the password on valut text file
+echo dbpass > ~/.valut_pass.txt
+2) chnage the permission to the file
+chmod 0600 !$
+3) update the ansible.cfg file with below value
+valut_password_file = ~/.valut_pass.txt
+4) run the playbook without passing any extra parameters
+ansible-playbook playbook.yml
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
