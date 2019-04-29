@@ -1,4 +1,4 @@
-
+Docker version 18.09
 
 1) WHat is your experience on Docker?
 
@@ -42,10 +42,7 @@ Secure by default
 If you want to secure your Docker client connections by default, you can move the files to the .docker directory in your home directory -- and set the DOCKER_HOST and DOCKER_TLS_VERIFY variables as well (instead of passing-H=tcp://$HOST:2376 and --tlsverify on every call).
 $ mkdir -pv ~/.docker $ cp -v {ca,cert,key}.pem ~/.docker  $ export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
 
-6) what is docker swarm?
-	A swarm is nothing but a  group of machine running docker grouped into a cluster. We will have a Swarm manager on a node, which will interact with other docker machines and create containers for your app.
-	All the managing is done through Swarm Manager, and swarm is a tool for container orchestartion.
-	
+
 7) What is the hirerachy in Docker?
 	Stack
 		services
@@ -204,3 +201,84 @@ services:
       - webnet
 networks:
   webnet:
+---------------------------------------------------------------------------------------------------
+Docker Swarm:
+
+what is docker swarm?
+
+	A swarm is nothing but a  group of machine running docker grouped into a cluster. We will have a Swarm manager on a node, which will interact with other docker machines and create containers for your app.
+	All the managing is done through Swarm Manager, and swarm is a tool for container orchestartion.
+	
+1) Swarm setup:
+
+	docker swarm init   to enable swarm mode and make your current machine a swarm manager
+	docker swarm join   on other machines to have them join the swarm as workers.
+
+2) Create Cluster:
+
+ docker-machine create --driver virtualbox myvm1
+ docker-machine create --driver virtualbox myvm2
+ 
+3) INITIALIZE THE SWARM AND ADD NODES:
+
+The first machine acts as the manager, which executes management commands and authenticates workers to join the swarm, and the second is a worker.
+
+$ docker-machine ssh myvm1 "docker swarm init --advertise-addr <myvm1 ip>"
+Swarm initialized: current node <node ID> is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+  docker swarm join \
+  --token <token> \
+  <myvm ip>:<port>
+
+To add a manager to this swarm, run 'docker swarm join-token manager'
+
+4) Deploy your app on the swarm cluster:
+
+Now that you have myvm1, you can use its powers as a swarm manager to deploy your app by using the same docker stack deploy.
+
+docker stack deploy -c docker-compose.yml getstartedlab
+
+
+Docker Swarm Vs Kubernetes
+
+https://thenewstack.io/kubernetes-vs-docker-swarm-whats-the-difference/
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Docker life cycle:
+
+1) Create a container to run it later on with required image.
+docker create --name <container-name> <image-name
+2) Run the docker container with the required image and specified command / process. ‘-d’ flag is used for running the container in background.
+docker run -it -d --name <container-name> <image-name> bash
+3) Pause container to pause the processes running inside the container.
+docker pause <container-id/name>
+4) Unpause container to unpause the processes inside the container.
+docker unpause <container-id/name>
+5)Start container to start the container, if present in stopped state.
+docker start <container-id/name>
+6) Stop container to stop the container and processes running inside the container:
+docker stop <container-id/name>
+7) Restart container to restart the container as well as processes running inside the container.
+docker restart <container-id/name>
+8) Kill container to kill the running container.
+docker kill <container-id/name>
+9) Destroy container Its preferred to destroy container, only if present in stopped state instead of forcefully destroying the running container.
+docker rm <container-id/name>
+
+---------------------------------------------------------------------------------------------------------------------
+
+Secure Docker Container:
+
+1) Always make sure to start Docker containers with the -u flag so that they run as an ordinary user instead of root. This is a basic first step toward improving security.
+2) Taking the previous point a step further, remove SUID flags from your container images. This makes privilege escalation attacks even harder.
+3) Configure Docker control groups (also known as cgroups), which let you set limits on how many resources each container can use. This will go a long way toward preventing container-based DoS attacks. 
+   (Note, however, that cgroups aren't intended to help provide other security isolations between containers—to do that, you use namespaces.)
+4) Use namespaces in Docker to isolate containers from one another. Namespaces help assure that a user or process running inside one container can't affect those in other containers.
+5) Don't use images from repos you don't trust. In particular, avoid public repos if they're not from an official source and you don't know the maintainer. This may sound like a no-brainer, 
+   but it's worth noting because it's sometimes so tempting to pull an image from a random registry.
+6) Consider using Clair (CoreOS's container security scanner) to validate containers from your registries. You can use Clair to scan images locally or you can run it directly from public registry services that are supported 
+  (which, for now, include CoreOS's own platform, Quay, as well as Dockyard).
