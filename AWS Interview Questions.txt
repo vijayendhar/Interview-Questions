@@ -44,7 +44,7 @@ Cloud Formation:
 
 1) Have you ever worked on ANS/cloud formation template in AWS ?
 
-yes, I have return the various kinds of cloudformation templates and also i have worked on the development of the cloud formation templates and then provistioning the eleastic compute cloud has left the virtual proivate cloud and i have used if for the various
+yes, I have return the various kinds of cloudformation templates and also i have worked on the development of the cloud formation templates and then provistioning the eleastic compute cloud has left the virtual proivate cloud and i have used it for the various
 kinds of automated deployment to the target machine and you know the during cloud formation for creating an environment for development and as well as various other teams. I would like to say so definitely about experience of using cloudformation templates for the various stakeholders 
 so that we can actually do the integrations in this case i have written the mappings is the property files and also defined the various outputs and resources inside that, so that we can go ahead and do the various integration with jenkins for the provisining of the
 infrastructure in the real time.
@@ -175,6 +175,25 @@ Create or Select a Launch Configuration
 Create an Auto Scaling Group
 (Optional) Verify that Your Load Balancer is Attached to Your Auto Scaling Group
 
+For each environment - we can have a different Auto Scaling Group with different launch configuration.
+
+For Auto Sclaing Group - we configure as follows:
+In Dev - we use only 1 Subnet/availability zone in SF
+In SYS - We use 2 Subnets/Availability Zones in SF
+
+1st step is to create a Launch Configuration with specifics such as Choosing AMI, Choose Instance Type, Configure Details (IAM Role, BootStrap script, IP Address Type), Add Storage, Configure Security Groups, Review etc.
+2nd step is to create a AutoScaling group with No of instances, Subnet, ELB, HealthCheckType, etc.
+
+
+8) what services did you used in AWS to implement CI/CD using AWS?
+
+yes, we ill be using code commit, code build, code pipeline, code deploy.
+
+9) what is the purpose of AWS opsworks?
+
+AWS OpsWorks (Amazon Web Services OpsWorks) is a cloud computing service from Amazon Web Services (AWS) that manages infrastructure deployment for cloud administrators. The service automates deployment, configurations and operational tasks for distributed applications.
+
+10) 
 
 
 
@@ -194,7 +213,7 @@ There are two types of VPC endpoints:
 interface endpoints -  An interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. (CLOUDFORMATION, cloudwatch, API gateway, SNS, SOS, EC2 API...)
 gateway endpoints -  A gateway endpoint is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWS service. (S3, DynamoDB)
 
-2) Have you ever implemented multi subnets or multi vps for your application?
+2) Have you ever implemented multi subnets or multi vpc for your application?
 
 3) I have 10 EC2, 3 DB, 3 middle, 5 frontend servers, - middle and db servers on private subnet and webservers are public subnet exposed through load balancer. now, i want application to use seasonal manner like end of quarter, i want to bring down the application
     begining of the quarter (3months) and 10 days before quarter ends,  i want to bring up the application. When i bring down the servers, the ips will go away and when bring up the servers, will get new Ips..how you will make sure your application works with new IPs?
@@ -412,9 +431,13 @@ Subnet create:
 
 aws ec2 create-subnet --vpc-id vpc-a01106c2 --cidr-block 10.0.1.0/24
 
-Delete create:
+Delete vpc:
 
 aws ec2 delete-vpc --vpc-id vpc-a01106c2
+
+start/stop EC2 instance:
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+aws ec2 stop-instances --instance-ids i-1234567890abcdef0
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Cloud Watch/Cloud Trial/Cloud Computing:
@@ -486,6 +509,10 @@ RDS:
 			Additional configuration steps required  - you are going to need to add a security group and connection information so the 
 			it's suitable for production environments, and gives you a lot more flexibility and it means that if you terminate a Elastic beanstalk environment you know your production instance will not be terminated.
 			Allows connections from multiple environments, you can tear down the application stack without impacting the database.
+
+
+RDS database engines are Amazon Aurora, MySQl, Postgres SQL, Oracle, Microfost SQL server 
+DynamoDB can replace  MongoDB, CassandraDB, Oracle No SQL.
 
 
 
@@ -671,6 +698,114 @@ Network Interfaces Configuration
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+AWS scripts:
+
+
+Launch AWS EC2 Instance:
+
+
+provider "aws" {
+ access_key=""
+ secret_key=""
+ region="us-east-1"
+}
+resource "aws_instance" "myfirstec2"{
+ami= "ami_b70554c8"
+instance_type="t2.micro"
+tag{
+ name="dowithpythontech"
+}
+}
+
+Loop to create multiple EC2 instances:
+
+provider "aws" {
+ region = "ap-south-1"
+}
+resource "aws_instance"
+"example" {
+ count = 3
+ ami = "ami-4fc58420"
+ instance_type = "t2.micro"
+ tags {
+  Name = "${var.instance_name}-${count.index+1}" //Interpolation Syntax
+ }
+}
+
+
+resource "aws_s3_bucket" "myfirstbucket"{
+bucket="dowithpythonbucket"
+acl="private"
+tag{
+name="for python technologies"
+}
+}
+
+variable "x"{
+default="2"
+}
+
+output "xo"{
+ value="${var.x}"
+}
+
+by default terrafom take variable as string 
+
+variable "myname"{
+type="string"
+default="terraform"
+}
+
+
+Script for AWS VPC setup:
+
+#========================== nat-gateway ======================
+# create a EIP, to associate it to NAT gateway
+resource "aws_eip" "nat_eip" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = "${aws_eip.nat_eip.id}"
+  subnet_id = "${var.public_subnet_id}"
+}
+
+#========================== nat-builds private subnet ======================
+resource "aws_subnet" "nat_builds" {
+  vpc_id = "${var.vpc_id}"
+  cidr_block = "${var.cidr_private_nat_builds}"
+  availability_zone = "${var.avl_zone}"
+  tags {
+    Name = "nat_builds_${var.install_version}"
+  }
+}
+
+# Routing table for nat-builds private subnet
+resource "aws_route_table" "rt_nat_builds" {
+  vpc_id = "${var.vpc_id}"
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = "${aws_nat_gateway.nat_gateway.id}"
+  }
+  tags {
+    Name = "rt_nat_builds_${var.install_version}"
+  }
+}
+
+# Associate the routing table to nat-builds private subnet
+resource "aws_route_table_association" "rt_assn_nat_builds" {
+  subnet_id = "${aws_subnet.nat_builds.id}"
+  route_table_id = "${aws_route_table.rt_nat_builds.id}"
+}
+
+# Outputs
+output "nat_public_ip" {
+ value = "${aws_eip.nat_eip.public_ip}"
+}
+
+output "nat_builds_private_subnetId" {
+ value = "${aws_subnet.nat_builds.id}"
+}
 
 
 
