@@ -514,6 +514,10 @@ RDS:
 RDS database engines are Amazon Aurora, MySQl, Postgres SQL, Oracle, Microfost SQL server 
 DynamoDB can replace  MongoDB, CassandraDB, Oracle No SQL.
 
+SQL v/s NoSQL Differences:
+
+SQL vs NoSQL: High-Level Differences. SQL databases are primarily called as Relational Databases (RDBMS)that is based on tabular design; whereas NoSQL database are primarily called as non-relational or distributed database in nature with its document-based design. 
+SQL databases have predefined schema whereas NoSQL databases have dynamic schema for unstructured data. NoSQL supported by column oriented databases where RDBMS is row oriented database. NoSQL seems to work better on both unstructured and unrelated data.
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
