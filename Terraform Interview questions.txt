@@ -1,26 +1,54 @@
-6) Have you worked on the Terraform? and what is the various type of tasks done?
+Terraform:
+
+Terraform version - 0.11.13
+
+Terraform is a tool for building, changing, and versioning infrastructure safely and efficiently. 
+Terraform can manage existing and popular service providers as well as custom in-house solutions.
+
+
+	To manage infrastructure with a code,  IAC: Infrastructure as a code
+	
+	Two ways:
+		IAC for existing environment
+		IAC for create new environment
+
+.tsstate file is important
+
+its uses GO language
+
+
+What is Infrastructure as code?
+
+     Infrastucture as code is a phynomina which lets you to define the infrastructure in terms of code for various examples of infrastructure as a code as they are there so one of them is the cloud formation template and 
+	 other is the terraform to both of the them help you to write the various kinds of infrastructure as code and then you can let live in step by step to provision the infrastructure on the cloud.
+
+
+
+1) Have you worked on the Terraform? and what is the various type of tasks done?
 yes, i have worked on the Terraform, I have used it for the provisioning of the infrastructure.
 
-I have returned the various types of tasks for the creation of the virtual private cloud and apart from that creation of virtual machines by using the various subnet and Elastic IP resources to create the  Elastic IP for the virtual machine and 
-finally go ahead and used those machines for various kind of activities on a daily basis for the application workflow as well. 
+I have returned the various types of tasks for the creation of the virtual private cloud and apart from that creation of virtual machines by using the various subnet and Elastic IP resources to create the  
+Elastic IP for the virtual machine and finally go ahead and used those machines for various kind of activities on a daily basis for the application workflow as well. 
 
-7) How did you check the application workflow in Terraform?
+2) How did you check the application workflow in Terraform?
 
-Basically you can do that by specifying the output files where in you can actually do that terraforms output file will gives you what is the actual output variable and the output and then you can use that as next steps  for the next cloud formation template.
+Basically you can do that by specifying the output files where in you can actually do that terraforms output file will gives you what is the actual output variable and the output and 
+then you can use that as next steps  for the next cloud formation template.
 
 
-8) have you ever used terraform with cloud formation?
+3) have you ever used terraform with cloud formation?
 
 Yes, I have used terraform with cloud formation. I ahve use the cloud forms with the key is independent sources and i have also got experience in the and have been deploying microservices  on the cloud using terraform.
 
-9) How to deploy the microservices using terraform?
+4) How to deploy the microservices using terraform?
 
-There are various ways of first all you have to create the various kinds of environments and you will be using the resources. When coming to deployment would like to say that you will be doing the blue green deployment in which you will actually go ahead and 
-then deploythe half of the machines and then you can manage the microsoft deployment infrastructure on top of the amazon and applied to the other half, obviously there is going to be integration test which will help us in doing the evaluations
+There are various ways of first all you have to create the various kinds of environments and you will be using the resources. When coming to deployment would like to say that you will be doing the blue green deployment 
+in which you will actually go ahead and then deploythe half of the machines and then you can manage the microsoft deployment infrastructure on top of the amazon and applied to the other half, obviously there is going 
+to be integration test which will help us in doing the evaluations
 
-So basically we are using the java and spring boot are being used to easily provision by using the terraform. We will be doing the end to end integration in which we will provisining infrastructure using various kinds of resources and once the infrastructure
-has been provisioned, we will have various outputs and we have user data scripts which we actually done by Ansible playbook, so we will be deploying application through ansible playbook  but then yes the infrastructure creation will actually be done through
-terraform scripts which will help you to deploy the infrastructure.
+So basically we are using the java and spring boot are being used to easily provision by using the terraform. We will be doing the end to end integration in which we will provisining infrastructure using various kinds 
+of resources and once the infrastructure has been provisioned, we will have various outputs and we have user data scripts which we actually done by Ansible playbook, so we will be deploying application through ansible playbook  
+but then yes the infrastructure creation will actually be done through terraform scripts which will help you to deploy the infrastructure.
 
 5) What is the difference between cloudformation and terraform?
 
@@ -28,13 +56,217 @@ the main difference is terraform works across multiple cloud provider  and cloud
 Terraform is having state management on the S3 buckets on the local file where as this missing on the cloud formation template.
 
 
-12) what are the parameters you need to create EC2 using terraform?
+6) what are the parameters you need to create EC2 using terraform?
 
 Most likely we need machine size  and also required virtual private cloud because without that you will not able to create the machine in the cloud.
 
-15) What is the provisioner in Terraform?
+7) What is the provisioner in Terraform?
 
-Basically provisioner in terraform which will let you talk to the various clouds and provisioners are used to execute the scripts on the local or remote machine as part of resource creation and provisioner can used to bootstrap a resource and cleanup before distroy 
-and run the configuration management. we can have 
+Basically provisioner in terraform which will let you talk to the various clouds and provisioners are used to execute the scripts on the local or remote machine as part of resource creation and provisioner can used to 
+bootstrap a resource and cleanup before distroy and run the configuration management. we can have 
 creation time provisioners -> can only run during the creation, not during the updation of life cycle and perform bootstraping the system
 distroy time provisioners -> can run only during the configuration of the resource if the resource block with destroy time provisioner 
+
+8) How to use Multiple Workspaces ?
+
+We can begin by separating our Terraform configurations with the workspace command.
+
+$ terraform workspace new prod
+Created and switched to workspace "prod"!
+
+$ terraform workspace new dev
+Created and switched to workspace "dev"!
+
+9) When to use Multiple Workspaces?
+
+Workspaces alone are not a suitable tool for system decomposition, because each subsystem should have its own separate configuration and backend, 
+and will thus have its own distinct set of workspaces. When utilizing remote backends with workspaces, you have strong separation between multiple deployments.
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Terraform Commands:
+
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+terraform validate
+terraform fmt
+terraform state (list/mv/pull/push/rm/show)
+terraform graph
+terraform workspace
+terraform output
+terraform import
+terraform force-unlock
+terraform refresh
+terraform taint/untaint
+
+Common commands:
+    apply              Builds or changes infrastructure
+    console            Interactive console for Terraform interpolations
+    destroy            Destroy Terraform-managed infrastructure
+    env                Workspace management
+    fmt                Rewrites config files to canonical format
+    get                Download and install modules for the configuration
+    graph              Create a visual graph of Terraform resources
+    import             Import existing infrastructure into Terraform
+    init               Initialize a Terraform working directory
+    output             Read an output from a state file
+    plan               Generate and show an execution plan
+    providers          Prints a tree of the providers used in the configuration
+    push               Upload this Terraform module to Atlas to run
+    refresh            Update local state file against real resources
+    show               Inspect Terraform state or plan
+    taint              Manually mark a resource for recreation
+    untaint            Manually unmark a resource as tainted
+    validate           Validates the Terraform files
+    version            Prints the Terraform version
+    workspace          Workspace management
+
+All other commands:
+    debug              Debug output management (experimental)
+    force-unlock       Manually unlock the terraform state
+    state              Advanced state management
+	
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Build infrastructure by using Terraform configuration:
+
+1) Configuration
+
+The set of files used to describe infrastructure in Terraform is simply known as a Terraform configuration. We're going to write our first configuration now to launch a single AWS EC2 instance. 
+Configuration files can also be JSON, but we recommend only using JSON when the configuration is generated by a machine.
+
+Launch EC2 instance:
+
+provider "aws" {
+ access_key=""
+ secret_key=""
+ region="us-east-1"
+}
+resource "aws_instance" "myfirstec2"{
+ami= "ami_b70554c8"
+instance_type="t2.micro"
+tag{
+ name="dowithpythontech"
+}
+}
+
+2) Initialization:
+
+The first command to run for a new configuration -- or after checking out an existing configuration from version control -- is terraform init, which initializes various local settings and data that will be used by 
+subsequent commands.
+
+$ terraform init
+
+3) Apply Changes:
+
+$ terraform apply
+
+This output shows the execution plan, describing which actions Terraform will take in order to change real infrastructure to match the configuration.
+Executing the plan will take a few minutes since Terraform waits for the EC2 instance to become available:
+
+
+4) You can inspect the current state using terraform show
+
+$ terraform show
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Terraform scripts:
+
+
+Loop to create multiple EC2 instances:
+
+provider "aws" {
+ region = "ap-south-1"
+}
+resource "aws_instance"
+"example" {
+ count = 3
+ ami = "ami-4fc58420"
+ instance_type = "t2.micro"
+ tags {
+  Name = "${var.instance_name}-${count.index+1}" //Interpolation Syntax
+ }
+}
+
+
+resource "aws_s3_bucket" "myfirstbucket"{
+bucket="dowithpythonbucket"
+acl="private"
+tag{
+name="for python technologies"
+}
+}
+
+variable "x"{
+default="2"
+}
+
+output "xo"{
+ value="${var.x}"
+}
+
+by default terrafom take variable as string 
+
+variable "myname"{
+type="string"
+default="terraform"
+}
+
+
+Script for AWS VPC setup:
+
+#========================== nat-gateway ======================
+# create a EIP, to associate it to NAT gateway
+resource "aws_eip" "nat_eip" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = "${aws_eip.nat_eip.id}"
+  subnet_id = "${var.public_subnet_id}"
+}
+
+#========================== nat-builds private subnet ======================
+resource "aws_subnet" "nat_builds" {
+  vpc_id = "${var.vpc_id}"
+  cidr_block = "${var.cidr_private_nat_builds}"
+  availability_zone = "${var.avl_zone}"
+  tags {
+    Name = "nat_builds_${var.install_version}"
+  }
+}
+
+# Routing table for nat-builds private subnet
+resource "aws_route_table" "rt_nat_builds" {
+  vpc_id = "${var.vpc_id}"
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = "${aws_nat_gateway.nat_gateway.id}"
+  }
+  tags {
+    Name = "rt_nat_builds_${var.install_version}"
+  }
+}
+
+# Associate the routing table to nat-builds private subnet
+resource "aws_route_table_association" "rt_assn_nat_builds" {
+  subnet_id = "${aws_subnet.nat_builds.id}"
+  route_table_id = "${aws_route_table.rt_nat_builds.id}"
+}
+
+# Outputs
+output "nat_public_ip" {
+ value = "${aws_eip.nat_eip.public_ip}"
+}
+
+output "nat_builds_private_subnetId" {
+ value = "${aws_subnet.nat_builds.id}"
+}
+	
